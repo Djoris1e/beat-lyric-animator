@@ -6,14 +6,8 @@ import { Button } from "@/components/ui/button";
 
 interface StompWord {
   text: string;
-  x: number;
-  y: number;
-  rotation: number;
-  scale: number;
-  color: string;
-  fontSize: number;
-  opacity: number;
   birth: number;
+  beatDuration: number;
 }
 
 interface StompPreviewProps {
