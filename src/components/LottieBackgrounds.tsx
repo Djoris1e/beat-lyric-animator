@@ -1,9 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import Lottie from "lottie-react";
-import { Check, X } from "lucide-react";
+import { Check, X, Search } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { genOriginalBackgrounds } from "@/lib/lottie/originalGenerators";
 import { genNewBackgrounds } from "@/lib/lottie/newGenerators";
+import { genMoreBackgrounds } from "@/lib/lottie/moreGenerators";
 
 export interface LottieOption {
   id: string;
@@ -12,7 +13,7 @@ export interface LottieOption {
 }
 
 export const LOTTIE_BACKGROUNDS: LottieOption[] = [
-  { id: "none", name: "No Background", category: "Basic" },
+  { id: "none", name: "No Background", category: "All" },
   // Original
   { id: "particles-1", name: "Floating Particles", category: "Particles" },
   { id: "wave-1", name: "Sound Wave", category: "Audio" },
@@ -43,7 +44,7 @@ export const LOTTIE_BACKGROUNDS: LottieOption[] = [
   { id: "hexagon-1", name: "Hexagon Grid", category: "Shapes" },
   { id: "wave-lines-1", name: "Wave Lines", category: "Abstract" },
   { id: "bokeh-1", name: "Bokeh Lights", category: "Particles" },
-  // NEW — Dynamic / Video-like
+  // Dynamic
   { id: "rockets-1", name: "🚀 Flying Rockets", category: "Dynamic" },
   { id: "counter-1", name: "🔢 Counter Blocks", category: "Dynamic" },
   { id: "arrows-1", name: "⬆ Rising Arrows", category: "Dynamic" },
@@ -66,6 +67,36 @@ export const LOTTIE_BACKGROUNDS: LottieOption[] = [
   { id: "orbit-1", name: "🪐 Orbital", category: "Space" },
   { id: "flames-1", name: "🔥 Flame Wall", category: "Nature" },
   { id: "laser-1", name: "✨ Laser Beams", category: "Dynamic" },
+  // Illustrations & Creative
+  { id: "balloons-1", name: "🎈 Balloons Rising", category: "Illustration" },
+  { id: "gears-1", name: "⚙️ Gears Turning", category: "Illustration" },
+  { id: "blossoms-1", name: "🌸 Cherry Blossoms", category: "Nature" },
+  { id: "butterflies-1", name: "🦋 Butterflies", category: "Illustration" },
+  { id: "paint-splatter-1", name: "🎨 Paint Splatter", category: "Effects" },
+  { id: "film-strip-1", name: "🎬 Film Strip", category: "Illustration" },
+  { id: "pendulum-1", name: "🎪 Pendulum", category: "Dynamic" },
+  { id: "spinner-1", name: "📱 Loading Spinner", category: "Tech" },
+  { id: "shooting-stars-1", name: "⭐ Shooting Stars", category: "Space" },
+  { id: "ocean-waves-1", name: "🌊 Ocean Waves", category: "Nature" },
+  { id: "rainbow-1", name: "🌈 Rainbow Arc", category: "Effects" },
+  { id: "bass-drop-1", name: "🔊 Bass Drop", category: "Audio" },
+  { id: "dice-1", name: "🎲 Rolling Dice", category: "Illustration" },
+  { id: "sparkle-trail-1", name: "💫 Sparkle Trail", category: "Effects" },
+  { id: "building-blocks-1", name: "🏗️ Building Blocks", category: "Illustration" },
+  { id: "countdown-1", name: "⏱️ Countdown Timer", category: "Dynamic" },
+  { id: "crystal-ball-1", name: "🔮 Crystal Ball", category: "Illustration" },
+  { id: "moon-phases-1", name: "🌙 Moon Phases", category: "Space" },
+  { id: "theater-masks-1", name: "🎭 Theater Masks", category: "Illustration" },
+  { id: "hourglass-1", name: "⏳ Hourglass", category: "Illustration" },
+  { id: "piano-keys-1", name: "🎹 Piano Keys", category: "Audio" },
+  { id: "circuit-board-1", name: "🔌 Circuit Board", category: "Tech" },
+  { id: "pixel-rain-1", name: "👾 Pixel Rain", category: "Effects" },
+  { id: "electric-waves-1", name: "⚡ Electric Waves", category: "Effects" },
+];
+
+const ALL_CATEGORIES = [
+  "All", "Dynamic", "Illustration", "Effects", "Audio", "Nature",
+  "Space", "Tech", "Shapes", "Particles", "Abstract", "Celebration",
 ];
 
 // Cache generated data
@@ -73,12 +104,12 @@ const lottieCache = new Map<string, object>();
 
 const allGenerators: Record<string, () => object> = {};
 
-// Lazy-init generators
 function initGenerators() {
   if (Object.keys(allGenerators).length > 0) return;
   const orig = genOriginalBackgrounds();
   const news = genNewBackgrounds();
-  Object.assign(allGenerators, orig, news);
+  const more = genMoreBackgrounds();
+  Object.assign(allGenerators, orig, news, more);
 }
 
 function getLottieData(id: string): object | null {
@@ -134,19 +165,71 @@ function LottieThumb({ option, isSelected, onSelect }: { option: LottieOption; i
 }
 
 export function LottieBackgroundPicker({ selectedId, onSelect }: LottieBackgroundPickerProps) {
+  const [activeCategory, setActiveCategory] = useState("All");
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const filteredBackgrounds = useMemo(() => {
+    return LOTTIE_BACKGROUNDS.filter((opt) => {
+      const matchesCategory = activeCategory === "All" || opt.category === activeCategory || opt.id === "none";
+      const matchesSearch = !searchQuery || opt.name.toLowerCase().includes(searchQuery.toLowerCase());
+      return matchesCategory && matchesSearch;
+    });
+  }, [activeCategory, searchQuery]);
+
   return (
-    <ScrollArea className="h-[400px] pr-2">
-      <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-2">
-        {LOTTIE_BACKGROUNDS.map((opt) => (
-          <LottieThumb
-            key={opt.id}
-            option={opt}
-            isSelected={selectedId === opt.id}
-            onSelect={() => onSelect(opt.id)}
-          />
-        ))}
+    <div className="space-y-3">
+      {/* Search */}
+      <div className="relative">
+        <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-muted-foreground" />
+        <input
+          type="text"
+          placeholder="Search animations..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="w-full pl-8 pr-3 py-1.5 text-sm bg-muted/50 border border-border rounded-md text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary"
+        />
       </div>
-    </ScrollArea>
+
+      {/* Category chips */}
+      <div className="flex flex-wrap gap-1.5">
+        {ALL_CATEGORIES.map((cat) => {
+          const count = cat === "All"
+            ? LOTTIE_BACKGROUNDS.length
+            : LOTTIE_BACKGROUNDS.filter((b) => b.category === cat).length;
+          if (count === 0 && cat !== "All") return null;
+          return (
+            <button
+              key={cat}
+              onClick={() => setActiveCategory(cat)}
+              className={`px-2.5 py-1 text-xs rounded-full transition-colors ${
+                activeCategory === cat
+                  ? "bg-primary text-primary-foreground"
+                  : "bg-muted text-muted-foreground hover:bg-muted/80"
+              }`}
+            >
+              {cat} <span className="opacity-60">({count})</span>
+            </button>
+          );
+        })}
+      </div>
+
+      {/* Grid */}
+      <ScrollArea className="h-[350px] pr-2">
+        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-8 gap-2">
+          {filteredBackgrounds.map((opt) => (
+            <LottieThumb
+              key={opt.id}
+              option={opt}
+              isSelected={selectedId === opt.id}
+              onSelect={() => onSelect(opt.id)}
+            />
+          ))}
+        </div>
+        {filteredBackgrounds.length === 0 && (
+          <p className="text-center text-sm text-muted-foreground py-8">No animations found</p>
+        )}
+      </ScrollArea>
+    </div>
   );
 }
 
