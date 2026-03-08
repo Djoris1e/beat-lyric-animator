@@ -5,8 +5,7 @@ import { StyleControls, ColorPalette, TextEffect } from "@/components/StyleContr
 import { StompPreview } from "@/components/StompPreview";
 import { LottieBackgroundPicker, useLottieBackground } from "@/components/LottieBackgrounds";
 import { detectBeats, decodeAudioFile, Beat } from "@/lib/beatDetection";
-import { Zap, Settings, Image } from "lucide-react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Zap } from "lucide-react";
 
 const Index = () => {
   const [audioBuffer, setAudioBuffer] = useState<AudioBuffer | null>(null);
@@ -52,59 +51,41 @@ const Index = () => {
   );
 
   return (
-    <div className="min-h-screen flex flex-col lg:flex-row">
-      <aside className="w-full lg:w-80 xl:w-96 bg-card border-b lg:border-b-0 lg:border-r border-border flex flex-col overflow-y-auto lg:max-h-screen">
-        <div className="flex items-center gap-2 p-5 pb-3">
-          <Zap className="w-5 h-5 text-primary" />
-          <h1 className="font-display text-2xl tracking-wide text-foreground">
-            KINETIC STOMP
-          </h1>
-        </div>
+    <div className="min-h-screen flex flex-col">
+      {/* Header */}
+      <div className="flex items-center gap-2 p-5 pb-3 bg-card border-b border-border">
+        <Zap className="w-5 h-5 text-primary" />
+        <h1 className="font-display text-2xl tracking-wide text-foreground">
+          KINETIC STOMP
+        </h1>
+      </div>
 
-        <div className="px-5 pb-3">
+      {/* Upload + Controls row */}
+      <div className="bg-card border-b border-border px-5 py-3 flex flex-col lg:flex-row gap-4">
+        <div className="lg:w-72 shrink-0">
           <AudioUpload
             onFileSelected={handleFileSelected}
             fileName={fileName}
             isProcessing={isProcessing}
           />
         </div>
+        <div className="flex-1 flex flex-col lg:flex-row gap-4 overflow-x-auto">
+          <WordEditor words={words} onChange={setWords} />
+          <StyleControls
+            palette={palette}
+            onPaletteChange={setPalette}
+            sensitivity={sensitivity}
+            onSensitivityChange={handleSensitivityChange}
+            intensity={intensity}
+            onIntensityChange={setIntensity}
+            textEffect={textEffect}
+            onTextEffectChange={setTextEffect}
+          />
+        </div>
+      </div>
 
-        <Tabs defaultValue="controls" className="flex-1 flex flex-col">
-          <TabsList className="mx-5 mb-2 bg-secondary">
-            <TabsTrigger value="controls" className="gap-1.5 text-xs">
-              <Settings className="w-3.5 h-3.5" />
-              Controls
-            </TabsTrigger>
-            <TabsTrigger value="backgrounds" className="gap-1.5 text-xs">
-              <Image className="w-3.5 h-3.5" />
-              Backgrounds
-            </TabsTrigger>
-          </TabsList>
-
-          <TabsContent value="controls" className="px-5 pb-5 space-y-6 flex-1">
-            <WordEditor words={words} onChange={setWords} />
-            <StyleControls
-              palette={palette}
-              onPaletteChange={setPalette}
-              sensitivity={sensitivity}
-              onSensitivityChange={handleSensitivityChange}
-              intensity={intensity}
-              onIntensityChange={setIntensity}
-              textEffect={textEffect}
-              onTextEffectChange={setTextEffect}
-            />
-          </TabsContent>
-
-          <TabsContent value="backgrounds" className="px-5 pb-5 flex-1">
-            <LottieBackgroundPicker
-              selectedId={lottieId}
-              onSelect={setLottieId}
-            />
-          </TabsContent>
-        </Tabs>
-      </aside>
-
-      <main className="flex-1 p-4 lg:p-6 flex flex-col min-h-[60vh] lg:min-h-screen">
+      {/* Preview */}
+      <main className="flex-1 p-4 lg:p-6 flex flex-col min-h-[40vh]">
         <StompPreview
           audioBuffer={audioBuffer}
           beats={beats}
@@ -115,6 +96,15 @@ const Index = () => {
           lottieData={lottieData}
         />
       </main>
+
+      {/* Backgrounds grid below preview */}
+      <div className="bg-card border-t border-border px-5 py-4">
+        <h2 className="text-sm font-medium text-muted-foreground mb-3">Backgrounds</h2>
+        <LottieBackgroundPicker
+          selectedId={lottieId}
+          onSelect={setLottieId}
+        />
+      </div>
     </div>
   );
 };
