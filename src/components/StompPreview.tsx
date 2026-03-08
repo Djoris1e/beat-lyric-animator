@@ -240,8 +240,7 @@ export function StompPreview({
               exit={currentVariant.exit}
               transition={{
                 duration: activeWord.duration * 0.3,
-                ease: [0.16, 1, 0.3, 1],
-                exit: { duration: activeWord.duration * 0.2 },
+                ease: [0.16, 1, 0.3, 1] as const,
               }}
               style={{
                 color: "white",
