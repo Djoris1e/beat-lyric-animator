@@ -55,11 +55,7 @@ interface ActiveWord {
   effect: TextEffect;
 }
 
-const textVariants: Record<TextEffect, {
-  initial: object;
-  animate: object;
-  exit: object;
-}> = {
+const textVariants = {
   float: {
     initial: { opacity: 0, scale: 0.5, y: 30 },
     animate: { opacity: 1, scale: 1, y: 0 },
