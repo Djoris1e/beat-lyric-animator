@@ -1,52 +1,10 @@
-import { useEffect, useRef, useState, useCallback, useMemo } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { Beat } from "@/lib/beatDetection";
-import { ColorPalette } from "@/components/StyleControls";
+import { ColorPalette, TextEffect } from "@/components/StyleControls";
 import { Play, Pause, RotateCcw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
 import Lottie from "lottie-react";
-import { TextEffect } from "@/components/StyleControls";
-
-// Inline Lottie animation data - abstract particles/waves
-const particlesLottie = {
-  v: "5.5.7", fr: 30, ip: 0, op: 120, w: 800, h: 600,
-  assets: [],
-  layers: [
-    ...Array.from({ length: 12 }, (_, i) => ({
-      ddd: 0, ind: i, ty: 4, nm: `particle_${i}`,
-      sr: 1, ks: {
-        o: { a: 1, k: [
-          { t: 0, s: [0], i: { x: [0.4], y: [1] }, o: { x: [0.6], y: [0] } },
-          { t: 30, s: [40 + Math.random() * 30], i: { x: [0.4], y: [1] }, o: { x: [0.6], y: [0] } },
-          { t: 90, s: [40 + Math.random() * 30], i: { x: [0.4], y: [1] }, o: { x: [0.6], y: [0] } },
-          { t: 120, s: [0] }
-        ] },
-        r: { a: 1, k: [
-          { t: 0, s: [0], i: { x: [0.4], y: [1] }, o: { x: [0.6], y: [0] } },
-          { t: 120, s: [360 * (Math.random() > 0.5 ? 1 : -1)] }
-        ] },
-        p: { a: 1, k: [
-          { t: 0, s: [100 + Math.random() * 600, 100 + Math.random() * 400, 0], i: { x: 0.4, y: 1 }, o: { x: 0.6, y: 0 } },
-          { t: 120, s: [100 + Math.random() * 600, 100 + Math.random() * 400, 0] }
-        ] },
-        s: { a: 1, k: [
-          { t: 0, s: [0, 0, 100], i: { x: [0.4, 0.4, 0.4], y: [1, 1, 1] }, o: { x: [0.6, 0.6, 0.6], y: [0, 0, 0] } },
-          { t: 30, s: [100, 100, 100], i: { x: [0.4, 0.4, 0.4], y: [1, 1, 1] }, o: { x: [0.6, 0.6, 0.6], y: [0, 0, 0] } },
-          { t: 90, s: [100, 100, 100], i: { x: [0.4, 0.4, 0.4], y: [1, 1, 1] }, o: { x: [0.6, 0.6, 0.6], y: [0, 0, 0] } },
-          { t: 120, s: [0, 0, 100] }
-        ] }
-      },
-      ao: 0, shapes: [{
-        ty: "gr", it: [
-          { ty: "el", d: 1, s: { a: 0, k: [8 + Math.random() * 16, 8 + Math.random() * 16] }, p: { a: 0, k: [0, 0] } },
-          { ty: "fl", c: { a: 0, k: [1, 1, 1, 1] }, o: { a: 0, k: 20 + Math.random() * 30 } },
-          { ty: "tr", p: { a: 0, k: [0, 0] }, a: { a: 0, k: [0, 0] }, s: { a: 0, k: [100, 100] }, r: { a: 0, k: 0 }, o: { a: 0, k: 100 } }
-        ]
-      }],
-      ip: 0, op: 120, st: Math.random() * -60
-    }))
-  ]
-};
 
 interface ActiveWord {
   text: string;
@@ -105,6 +63,7 @@ interface StompPreviewProps {
   palette: ColorPalette;
   intensity: number;
   textEffect: TextEffect;
+  lottieData: object | null;
 }
 
 export function StompPreview({
@@ -113,6 +72,7 @@ export function StompPreview({
   words,
   intensity,
   textEffect,
+  lottieData,
 }: StompPreviewProps) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
@@ -205,14 +165,16 @@ export function StompPreview({
         style={{ backgroundColor: "hsl(0, 0%, 2%)", perspective: "800px" }}
       >
         {/* Lottie background */}
-        <div className="absolute inset-0 pointer-events-none opacity-30">
-          <Lottie
-            animationData={particlesLottie}
-            loop
-            autoplay={isPlaying}
-            style={{ width: "100%", height: "100%" }}
-          />
-        </div>
+        {lottieData && (
+          <div className="absolute inset-0 pointer-events-none opacity-30">
+            <Lottie
+              animationData={lottieData}
+              loop
+              autoplay
+              style={{ width: "100%", height: "100%" }}
+            />
+          </div>
+        )}
 
         {/* Beat pulse ring */}
         <AnimatePresence>
@@ -224,7 +186,6 @@ export function StompPreview({
               animate={{ width: 500, height: 500, opacity: 0 }}
               exit={{ opacity: 0 }}
               transition={{ duration: activeWord.duration * 0.8, ease: "easeOut" }}
-              style={{ borderColor: "hsl(var(--primary) / 0.3)" }}
             />
           )}
         </AnimatePresence>
