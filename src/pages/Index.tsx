@@ -5,8 +5,7 @@ import { StyleControls, ColorPalette, TextEffect } from "@/components/StyleContr
 import { StompPreview } from "@/components/StompPreview";
 import { LottieBackgroundPicker, useLottieBackground } from "@/components/LottieBackgrounds";
 import { detectBeats, decodeAudioFile, Beat } from "@/lib/beatDetection";
-import { Zap, Settings, Image } from "lucide-react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Zap } from "lucide-react";
 
 const Index = () => {
   const [audioBuffer, setAudioBuffer] = useState<AudioBuffer | null>(null);
