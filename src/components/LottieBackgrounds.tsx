@@ -42,38 +42,71 @@ export const LOTTIE_BACKGROUNDS: LottieOption[] = [
   { id: "bokeh-1", name: "Bokeh Lights", url: "https://lottie.host/6b7c8d9e-0f1a-2b3c-4d5e-6f7a8b9c0d1e/bokeh.json" },
 ];
 
-// Generate procedural Lottie JSON for backgrounds that fail to load
+// Color palettes for each background style
+const BG_COLORS: Record<string, [number, number, number][]> = {
+  "particles-1": [[0.9, 0.3, 1], [0.6, 0.2, 0.9]],
+  "wave-1": [[0, 0.7, 1], [0, 0.4, 0.8]],
+  "gradient-1": [[1, 0.4, 0.7], [0.5, 0.2, 1]],
+  "stars-1": [[1, 1, 0.6], [0.8, 0.8, 1]],
+  "circles-1": [[0, 1, 0.8], [0.2, 0.6, 1]],
+  "smoke-1": [[0.6, 0.6, 0.7], [0.3, 0.3, 0.4]],
+  "confetti-1": [[1, 0.2, 0.3], [1, 0.8, 0], [0.2, 0.8, 1], [0.2, 1, 0.4]],
+  "geometric-1": [[1, 0.5, 0], [1, 0.8, 0.2]],
+  "equalizer-1": [[0, 1, 0.5], [0, 0.8, 0.3]],
+  "fireworks-1": [[1, 0.8, 0], [1, 0.3, 0.1], [1, 1, 0.5]],
+  "lightning-1": [[0.7, 0.8, 1], [1, 1, 1]],
+  "rain-1": [[0.3, 0.5, 0.9], [0.5, 0.7, 1]],
+  "spiral-1": [[0.8, 0.2, 1], [0.4, 0, 0.8]],
+  "bubbles-1": [[0.3, 0.8, 1], [0.6, 0.9, 1]],
+  "galaxy-1": [[0.5, 0, 1], [0.8, 0.3, 1], [0.2, 0.2, 0.8]],
+  "pulse-1": [[1, 0.1, 0.3], [1, 0.3, 0.4]],
+  "aurora-1": [[0, 1, 0.5], [0.2, 0.5, 1], [0.5, 0, 1]],
+  "matrix-1": [[0, 1, 0.2], [0, 0.7, 0.1]],
+  "dots-1": [[1, 0.6, 0], [1, 0.9, 0.3]],
+  "rings-1": [[0.3, 0.6, 1], [0.5, 0.8, 1]],
+  "noise-1": [[0.5, 0.5, 0.5], [0.7, 0.7, 0.7]],
+  "glitch-bg-1": [[1, 0, 0.5], [0, 1, 1]],
+  "snow-1": [[0.8, 0.9, 1], [1, 1, 1]],
+  "fire-1": [[1, 0.4, 0], [1, 0.7, 0.1], [1, 0.2, 0]],
+  "music-1": [[1, 0.3, 0.6], [0.8, 0.2, 1]],
+  "neon-1": [[0, 1, 1], [1, 0, 1]],
+  "hexagon-1": [[0.2, 0.8, 0.6], [0.4, 1, 0.8]],
+  "wave-lines-1": [[0.4, 0.6, 1], [0.6, 0.8, 1]],
+  "bokeh-1": [[1, 0.8, 0.4], [0.4, 0.7, 1], [1, 0.4, 0.6]],
+};
+
 function generateProceduralLottie(id: string): object {
   const seed = id.split("").reduce((a, c) => a + c.charCodeAt(0), 0);
-  const hue = seed % 360;
-  const count = 8 + (seed % 8);
+  const colors = BG_COLORS[id] || [[1, 1, 1]];
+  const count = 12 + (seed % 6);
   const w = 400, h = 300;
 
   const layers = Array.from({ length: count }, (_, i) => {
     const cx = (seed * (i + 1) * 137) % w;
     const cy = (seed * (i + 1) * 97) % h;
-    const size = 4 + ((seed * (i + 1)) % 20);
-    const delay = -((i * 15) % 90);
-    const drift = 20 + ((seed * i) % 40);
+    const size = 12 + ((seed * (i + 1)) % 30);
+    const delay = -((i * 10) % 90);
+    const drift = 30 + ((seed * i) % 50);
+    const col = colors[i % colors.length];
 
     return {
       ddd: 0, ind: i, ty: 4, nm: `p${i}`, sr: 1,
       ks: {
         o: { a: 1, k: [
-          { t: 0, s: [0], i: { x: [0.4], y: [1] }, o: { x: [0.6], y: [0] } },
-          { t: 20, s: [50 + (seed * i) % 40], i: { x: [0.4], y: [1] }, o: { x: [0.6], y: [0] } },
-          { t: 100, s: [50 + (seed * i) % 40], i: { x: [0.4], y: [1] }, o: { x: [0.6], y: [0] } },
-          { t: 120, s: [0] }
+          { t: 0, s: [10], i: { x: [0.4], y: [1] }, o: { x: [0.6], y: [0] } },
+          { t: 15, s: [70 + (seed * i) % 25], i: { x: [0.4], y: [1] }, o: { x: [0.6], y: [0] } },
+          { t: 90, s: [70 + (seed * i) % 25], i: { x: [0.4], y: [1] }, o: { x: [0.6], y: [0] } },
+          { t: 120, s: [10] }
         ]},
         p: { a: 1, k: [
           { t: 0, s: [cx, cy, 0], i: { x: 0.4, y: 1 }, o: { x: 0.6, y: 0 } },
-          { t: 60, s: [cx + drift * (i % 2 === 0 ? 1 : -1), cy - drift, 0], i: { x: 0.4, y: 1 }, o: { x: 0.6, y: 0 } },
+          { t: 60, s: [cx + drift * (i % 2 === 0 ? 1 : -1), cy - drift * 0.7, 0], i: { x: 0.4, y: 1 }, o: { x: 0.6, y: 0 } },
           { t: 120, s: [cx, cy, 0] }
         ]},
         s: { a: 1, k: [
-          { t: 0, s: [80, 80, 100], i: { x: [0.4,0.4,0.4], y: [1,1,1] }, o: { x: [0.6,0.6,0.6], y: [0,0,0] } },
-          { t: 60, s: [120, 120, 100], i: { x: [0.4,0.4,0.4], y: [1,1,1] }, o: { x: [0.6,0.6,0.6], y: [0,0,0] } },
-          { t: 120, s: [80, 80, 100] }
+          { t: 0, s: [60, 60, 100], i: { x: [0.4,0.4,0.4], y: [1,1,1] }, o: { x: [0.6,0.6,0.6], y: [0,0,0] } },
+          { t: 60, s: [140, 140, 100], i: { x: [0.4,0.4,0.4], y: [1,1,1] }, o: { x: [0.6,0.6,0.6], y: [0,0,0] } },
+          { t: 120, s: [60, 60, 100] }
         ]},
         r: { a: 1, k: [
           { t: 0, s: [0], i: { x: [0.4], y: [1] }, o: { x: [0.6], y: [0] } },
@@ -84,9 +117,9 @@ function generateProceduralLottie(id: string): object {
       shapes: [{
         ty: "gr", it: [
           i % 3 === 0
-            ? { ty: "rc", d: 1, s: { a: 0, k: [size, size] }, p: { a: 0, k: [0, 0] }, r: { a: 0, k: 2 } }
-            : { ty: "el", d: 1, s: { a: 0, k: [size, size] }, p: { a: 0, k: [0, 0] } },
-          { ty: "fl", c: { a: 0, k: [1, 1, 1, 1] }, o: { a: 0, k: 25 + (seed * i) % 30 } },
+            ? { ty: "rc", d: 1, s: { a: 0, k: [size, size] }, p: { a: 0, k: [0, 0] }, r: { a: 0, k: 4 } }
+            : { ty: "el", d: 1, s: { a: 0, k: [size * 1.2, size * 1.2] }, p: { a: 0, k: [0, 0] } },
+          { ty: "fl", c: { a: 0, k: [col[0], col[1], col[2], 1] }, o: { a: 0, k: 60 + (seed * i) % 35 } },
           { ty: "tr", p: { a: 0, k: [0, 0] }, a: { a: 0, k: [0, 0] }, s: { a: 0, k: [100, 100] }, r: { a: 0, k: 0 }, o: { a: 0, k: 100 } }
         ]
       }],
