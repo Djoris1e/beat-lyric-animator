@@ -1,7 +1,7 @@
 import { useState, useCallback } from "react";
 import { AudioUpload } from "@/components/AudioUpload";
 import { WordEditor } from "@/components/WordEditor";
-import { StyleControls, ColorPalette } from "@/components/StyleControls";
+import { StyleControls, ColorPalette, TextEffect } from "@/components/StyleControls";
 import { StompPreview } from "@/components/StompPreview";
 import { detectBeats, decodeAudioFile, Beat } from "@/lib/beatDetection";
 import { Zap } from "lucide-react";
@@ -15,6 +15,7 @@ const Index = () => {
   const [palette, setPalette] = useState<ColorPalette>("neon");
   const [sensitivity, setSensitivity] = useState(0.5);
   const [intensity, setIntensity] = useState(0.7);
+  const [textEffect, setTextEffect] = useState<TextEffect>("stomp");
 
   const handleFileSelected = useCallback(
     async (file: File) => {
@@ -47,7 +48,6 @@ const Index = () => {
 
   return (
     <div className="min-h-screen flex flex-col lg:flex-row">
-      {/* Sidebar */}
       <aside className="w-full lg:w-80 xl:w-96 bg-card border-b lg:border-b-0 lg:border-r border-border p-5 flex flex-col gap-6 overflow-y-auto lg:max-h-screen">
         <div className="flex items-center gap-2">
           <Zap className="w-5 h-5 text-primary" />
@@ -71,10 +71,11 @@ const Index = () => {
           onSensitivityChange={handleSensitivityChange}
           intensity={intensity}
           onIntensityChange={setIntensity}
+          textEffect={textEffect}
+          onTextEffectChange={setTextEffect}
         />
       </aside>
 
-      {/* Main preview */}
       <main className="flex-1 p-4 lg:p-6 flex flex-col min-h-[60vh] lg:min-h-screen">
         <StompPreview
           audioBuffer={audioBuffer}
@@ -82,6 +83,7 @@ const Index = () => {
           words={words}
           palette={palette}
           intensity={intensity}
+          textEffect={textEffect}
         />
       </main>
     </div>

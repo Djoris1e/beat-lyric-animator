@@ -3,6 +3,7 @@ import { Slider } from "@/components/ui/slider";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 
 export type ColorPalette = "neon" | "monochrome" | "warm" | "cool";
+export type TextEffect = "float" | "stomp" | "glitch" | "typewriter" | "elastic" | "flip" | "blur" | "wave";
 
 export const PALETTES: Record<ColorPalette, string[]> = {
   neon: [
@@ -36,6 +37,17 @@ export const PALETTES: Record<ColorPalette, string[]> = {
   ],
 };
 
+const TEXT_EFFECTS: { value: TextEffect; label: string }[] = [
+  { value: "float", label: "Float" },
+  { value: "stomp", label: "Stomp" },
+  { value: "glitch", label: "Glitch" },
+  { value: "elastic", label: "Elastic" },
+  { value: "flip", label: "Flip" },
+  { value: "blur", label: "Blur" },
+  { value: "wave", label: "Wave" },
+  { value: "typewriter", label: "Type" },
+];
+
 interface StyleControlsProps {
   palette: ColorPalette;
   onPaletteChange: (p: ColorPalette) => void;
@@ -43,6 +55,8 @@ interface StyleControlsProps {
   onSensitivityChange: (v: number) => void;
   intensity: number;
   onIntensityChange: (v: number) => void;
+  textEffect: TextEffect;
+  onTextEffectChange: (e: TextEffect) => void;
 }
 
 export function StyleControls({
@@ -52,9 +66,33 @@ export function StyleControls({
   onSensitivityChange,
   intensity,
   onIntensityChange,
+  textEffect,
+  onTextEffectChange,
 }: StyleControlsProps) {
   return (
     <div className="space-y-5">
+      <div className="space-y-2">
+        <Label className="text-xs uppercase tracking-wider text-muted-foreground">
+          Text Effect
+        </Label>
+        <ToggleGroup
+          type="single"
+          value={textEffect}
+          onValueChange={(v) => v && onTextEffectChange(v as TextEffect)}
+          className="flex flex-wrap gap-1"
+        >
+          {TEXT_EFFECTS.map((e) => (
+            <ToggleGroupItem
+              key={e.value}
+              value={e.value}
+              className="text-xs px-3 py-1 data-[state=on]:bg-primary data-[state=on]:text-primary-foreground"
+            >
+              {e.label}
+            </ToggleGroupItem>
+          ))}
+        </ToggleGroup>
+      </div>
+
       <div className="space-y-2">
         <Label className="text-xs uppercase tracking-wider text-muted-foreground">
           Color Palette
