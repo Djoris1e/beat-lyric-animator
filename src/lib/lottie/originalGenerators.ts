@@ -225,10 +225,10 @@ function genRings(c: C[]) {
 function genNoise(c: C[]) {
   const layers = Array.from({ length: 30 }, (_, i) => {
     const col = c[i % c.length]; const x = (i * 43) % 400; const y = (i * 31) % 300;
-    return makeLayer(i, [rc(3, 3, 0), fl(col, 40)], {
-      o: { a: 1, k: [{ t: 0, s: [0], i: { x: [.4], y: [1] }, o: { x: [.6], y: [0] } }, { t: 3 + (i % 5), s: [60], i: { x: [.4], y: [1] }, o: { x: [.6], y: [0] } }, { t: 8 + (i % 5), s: [0], i: { x: [.4], y: [1] }, o: { x: [.6], y: [0] } }, { t: 150, s: [0] }] },
+    return makeLayer(i, [rc(6, 6, 0), fl(col, 70)], {
+      o: { a: 1, k: [{ t: 0, s: [0], i: { x: [.4], y: [1] }, o: { x: [.6], y: [0] } }, { t: 3 + (i % 5), s: [90], i: { x: [.4], y: [1] }, o: { x: [.6], y: [0] } }, { t: 10 + (i % 5), s: [40], i: { x: [.4], y: [1] }, o: { x: [.6], y: [0] } }, { t: 18 + (i % 8), s: [80], i: { x: [.4], y: [1] }, o: { x: [.6], y: [0] } }, { t: 25 + (i % 8), s: [0], i: { x: [.4], y: [1] }, o: { x: [.6], y: [0] } }, { t: 150, s: [0] }] },
       p: { a: 0, k: [x, y, 0] }, s: { a: 0, k: [100, 100, 100] }, r: { a: 0, k: 0 },
-    }, { st: -(i * 5) });
+    }, { st: -(i * 4) });
   });
   return wrap(layers);
 }
