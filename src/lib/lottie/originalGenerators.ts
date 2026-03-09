@@ -189,8 +189,8 @@ function genPulse(c: C[]) {
 function genAurora(c: C[]) {
   const layers = Array.from({ length: 6 }, (_, i) => {
     const col = c[i % c.length]; const x = 50 + i * 60;
-    return makeLayer(i, [rc(80, 200, 20), fl(col, 18)], {
-      o: aOpacity(10, 30), p: aPos(x, 150, x + 40, 130),
+    return makeLayer(i, [rc(80, 200, 20), fl(col, 40)], {
+      o: aOpacity(25, 55), p: aPos(x, 150, x + 40, 130),
       s: { a: 1, k: [{ t: 0, s: [100, 80, 100], i: { x: [.4,.4,.4], y: [1,1,1] }, o: { x: [.6,.6,.6], y: [0,0,0] } }, { t: 75, s: [120, 120, 100], i: { x: [.4,.4,.4], y: [1,1,1] }, o: { x: [.6,.6,.6], y: [0,0,0] } }, { t: 150, s: [100, 80, 100] }] },
       r: aRotate(15 * (i % 2 ? 1 : -1)),
     }, { st: -(i * 20) });
