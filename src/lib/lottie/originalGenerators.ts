@@ -59,7 +59,7 @@ function genWave(c: C[]) {
 function genBlob(c: C[]) {
   const layers = Array.from({ length: 5 }, (_, i) => {
     const col = c[i % c.length];
-    return makeLayer(i, [el(80 + i * 20), fl(col, 25)], { o: aOpacity(20, 50), p: aPos(150 + i * 30, 120 + i * 20, 200 + i * 20, 160 - i * 10), s: aScale(80, 140), r: aRotate(120 * (i % 2 ? 1 : -1)) }, { st: -(i * 20) });
+    return makeLayer(i, [el(80 + i * 20), fl(col, 40)], { o: aOpacity(30, 65), p: aPos(150 + i * 30, 120 + i * 20, 200 + i * 20, 160 - i * 10), s: aScale(80, 140), r: aRotate(120 * (i % 2 ? 1 : -1)) }, { st: -(i * 20) });
   });
   return wrap(layers);
 }
@@ -83,7 +83,7 @@ function genCircles(c: C[]) {
 function genSmoke(c: C[]) {
   const layers = Array.from({ length: 8 }, (_, i) => {
     const col = c[i % c.length]; const x = 100 + (i * 40) % 200;
-    return makeLayer(i, [el(60 + i * 10), fl(col, 15)], { o: aOpacity(5, 30), p: aPos(x, 250, x + (i % 2 ? 40 : -40), 80), s: aScale(60, 200), r: aRotate(60 * (i % 2 ? 1 : -1)) }, { st: -(i * 15) });
+    return makeLayer(i, [el(60 + i * 10), fl(col, 40)], { o: aOpacity(20, 60), p: aPos(x, 250, x + (i % 2 ? 40 : -40), 80), s: aScale(60, 200), r: aRotate(60 * (i % 2 ? 1 : -1)) }, { st: -(i * 15) });
   });
   return wrap(layers);
 }
@@ -132,10 +132,10 @@ function genFireworks(c: C[]) {
 function genLightning(c: C[]) {
   const layers = Array.from({ length: 6 }, (_, i) => {
     const col = c[i % c.length]; const x = 60 + (i * 70) % 300;
-    return makeLayer(i, [rc(3, 120 + i * 20, 0), fl(col, 80)], {
-      o: { a: 1, k: [{ t: 0, s: [0], i: { x: [.4], y: [1] }, o: { x: [.6], y: [0] } }, { t: 5 + i * 2, s: [100], i: { x: [.4], y: [1] }, o: { x: [.6], y: [0] } }, { t: 15 + i * 2, s: [0], i: { x: [.4], y: [1] }, o: { x: [.6], y: [0] } }, { t: 150, s: [0] }] },
+    return makeLayer(i, [rc(4, 120 + i * 20, 0), fl(col, 90)], {
+      o: { a: 1, k: [{ t: 0, s: [0], i: { x: [.4], y: [1] }, o: { x: [.6], y: [0] } }, { t: 5 + i * 2, s: [100], i: { x: [.4], y: [1] }, o: { x: [.6], y: [0] } }, { t: 25 + i * 4, s: [60], i: { x: [.4], y: [1] }, o: { x: [.6], y: [0] } }, { t: 40 + i * 5, s: [100], i: { x: [.4], y: [1] }, o: { x: [.6], y: [0] } }, { t: 60 + i * 5, s: [0], i: { x: [.4], y: [1] }, o: { x: [.6], y: [0] } }, { t: 100, s: [0], i: { x: [.4], y: [1] }, o: { x: [.6], y: [0] } }, { t: 110, s: [90], i: { x: [.4], y: [1] }, o: { x: [.6], y: [0] } }, { t: 150, s: [0] }] },
       p: { a: 0, k: [x, 150, 0] }, s: { a: 0, k: [100, 100, 100] }, r: { a: 0, k: -5 + (i % 3) * 5 },
-    }, { st: -(i * 25) });
+    }, { st: -(i * 15) });
   });
   return wrap(layers);
 }
@@ -189,8 +189,8 @@ function genPulse(c: C[]) {
 function genAurora(c: C[]) {
   const layers = Array.from({ length: 6 }, (_, i) => {
     const col = c[i % c.length]; const x = 50 + i * 60;
-    return makeLayer(i, [rc(80, 200, 20), fl(col, 18)], {
-      o: aOpacity(10, 30), p: aPos(x, 150, x + 40, 130),
+    return makeLayer(i, [rc(80, 200, 20), fl(col, 40)], {
+      o: aOpacity(25, 55), p: aPos(x, 150, x + 40, 130),
       s: { a: 1, k: [{ t: 0, s: [100, 80, 100], i: { x: [.4,.4,.4], y: [1,1,1] }, o: { x: [.6,.6,.6], y: [0,0,0] } }, { t: 75, s: [120, 120, 100], i: { x: [.4,.4,.4], y: [1,1,1] }, o: { x: [.6,.6,.6], y: [0,0,0] } }, { t: 150, s: [100, 80, 100] }] },
       r: aRotate(15 * (i % 2 ? 1 : -1)),
     }, { st: -(i * 20) });
@@ -225,10 +225,10 @@ function genRings(c: C[]) {
 function genNoise(c: C[]) {
   const layers = Array.from({ length: 30 }, (_, i) => {
     const col = c[i % c.length]; const x = (i * 43) % 400; const y = (i * 31) % 300;
-    return makeLayer(i, [rc(3, 3, 0), fl(col, 40)], {
-      o: { a: 1, k: [{ t: 0, s: [0], i: { x: [.4], y: [1] }, o: { x: [.6], y: [0] } }, { t: 3 + (i % 5), s: [60], i: { x: [.4], y: [1] }, o: { x: [.6], y: [0] } }, { t: 8 + (i % 5), s: [0], i: { x: [.4], y: [1] }, o: { x: [.6], y: [0] } }, { t: 150, s: [0] }] },
+    return makeLayer(i, [rc(6, 6, 0), fl(col, 70)], {
+      o: { a: 1, k: [{ t: 0, s: [0], i: { x: [.4], y: [1] }, o: { x: [.6], y: [0] } }, { t: 3 + (i % 5), s: [90], i: { x: [.4], y: [1] }, o: { x: [.6], y: [0] } }, { t: 10 + (i % 5), s: [40], i: { x: [.4], y: [1] }, o: { x: [.6], y: [0] } }, { t: 18 + (i % 8), s: [80], i: { x: [.4], y: [1] }, o: { x: [.6], y: [0] } }, { t: 25 + (i % 8), s: [0], i: { x: [.4], y: [1] }, o: { x: [.6], y: [0] } }, { t: 150, s: [0] }] },
       p: { a: 0, k: [x, y, 0] }, s: { a: 0, k: [100, 100, 100] }, r: { a: 0, k: 0 },
-    }, { st: -(i * 5) });
+    }, { st: -(i * 4) });
   });
   return wrap(layers);
 }
@@ -236,11 +236,11 @@ function genNoise(c: C[]) {
 function genGlitch(c: C[]) {
   const layers = Array.from({ length: 8 }, (_, i) => {
     const col = c[i % c.length]; const y = 30 + i * 35;
-    return makeLayer(i, [rc(400, 6 + (i % 3) * 4, 0), fl(col, 50)], {
-      o: { a: 1, k: [{ t: 0, s: [0], i: { x: [.4], y: [1] }, o: { x: [.6], y: [0] } }, { t: 2 + i, s: [80], i: { x: [.4], y: [1] }, o: { x: [.6], y: [0] } }, { t: 6 + i, s: [0], i: { x: [.4], y: [1] }, o: { x: [.6], y: [0] } }, { t: 150, s: [0] }] },
-      p: { a: 1, k: [{ t: 0, s: [200, y, 0], i: { x: .4, y: 1 }, o: { x: .6, y: 0 } }, { t: 3 + i, s: [200 + (i % 2 ? 30 : -30), y, 0], i: { x: .4, y: 1 }, o: { x: .6, y: 0 } }, { t: 6 + i, s: [200, y, 0] }] },
+    return makeLayer(i, [rc(400, 8 + (i % 3) * 5, 0), fl(col, 70)], {
+      o: { a: 1, k: [{ t: 0, s: [0], i: { x: [.4], y: [1] }, o: { x: [.6], y: [0] } }, { t: 2 + i, s: [90], i: { x: [.4], y: [1] }, o: { x: [.6], y: [0] } }, { t: 8 + i, s: [50], i: { x: [.4], y: [1] }, o: { x: [.6], y: [0] } }, { t: 15 + i * 2, s: [85], i: { x: [.4], y: [1] }, o: { x: [.6], y: [0] } }, { t: 22 + i * 2, s: [0], i: { x: [.4], y: [1] }, o: { x: [.6], y: [0] } }, { t: 150, s: [0] }] },
+      p: { a: 1, k: [{ t: 0, s: [200, y, 0], i: { x: .4, y: 1 }, o: { x: .6, y: 0 } }, { t: 3 + i, s: [200 + (i % 2 ? 40 : -40), y, 0], i: { x: .4, y: 1 }, o: { x: .6, y: 0 } }, { t: 6 + i, s: [200, y, 0] }] },
       s: { a: 0, k: [100, 100, 100] }, r: { a: 0, k: 0 },
-    }, { st: -(i * 18) });
+    }, { st: -(i * 12) });
   });
   return wrap(layers);
 }
@@ -304,7 +304,7 @@ function genWaveLines(c: C[]) {
 function genBokeh(c: C[]) {
   const layers = Array.from({ length: 12 }, (_, i) => {
     const col = c[i % c.length]; const x = 30 + (i * 67) % 340; const y = 30 + (i * 47) % 240;
-    return makeLayer(i, [el(20 + (i % 4) * 15), fl(col, 18)], { o: aOpacity(10, 35), p: aPos(x, y, x + (i % 2 ? 15 : -15), y + (i % 3 ? -10 : 10)), s: aScale(70, 130), r: { a: 0, k: 0 } }, { st: -(i * 10) });
+    return makeLayer(i, [el(20 + (i % 4) * 15), fl(col, 40)], { o: aOpacity(25, 60), p: aPos(x, y, x + (i % 2 ? 15 : -15), y + (i % 3 ? -10 : 10)), s: aScale(70, 130), r: { a: 0, k: 0 } }, { st: -(i * 10) });
   });
   return wrap(layers);
 }

@@ -245,30 +245,15 @@ function genSpinner(): object {
   for (let i = 0; i < 12; i++) {
     const angle = (i / 12) * Math.PI * 2;
     const r = 40;
-    const opacity = 20 + (i / 12) * 60;
-    layers.push(makeLayer(i, [rc(4, 12, 2), fl(c, opacity)], {
+    const opacity = 30 + (i / 12) * 60;
+    layers.push(makeLayer(i, [rc(5, 14, 3), fl(c, opacity)], {
       o: { a: 0, k: opacity },
       p: { a: 0, k: [200 + Math.cos(angle) * r, 150 + Math.sin(angle) * r, 0] },
       s: { a: 0, k: [100, 100, 100] },
-      r: { a: 0, k: (angle * 180 / Math.PI) + 90 },
-    }));
+      r: aRotate(360),
+    }, { st: -(i * 2) }));
   }
-  // Make it spin by wrapping in a group rotation
-  return {
-    v: "5.5.7", fr: 30, ip: 0, op: 150, w: 400, h: 300, assets: [],
-    layers: [{
-      ddd: 0, ind: 0, ty: 4, nm: "spinner", sr: 1,
-      ks: {
-        o: { a: 0, k: 100 },
-        p: { a: 0, k: [200, 150, 0] },
-        s: { a: 0, k: [100, 100, 100] },
-        r: aRotate(360),
-      },
-      ao: 0,
-      shapes: layers.map((l: any) => l.shapes[0]),
-      ip: 0, op: 150, st: 0,
-    }],
-  };
+  return wrap(layers);
 }
 
 // ====== SHOOTING STARS ======
