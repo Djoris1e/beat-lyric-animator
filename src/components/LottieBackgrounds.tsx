@@ -143,7 +143,7 @@ function LottieThumb({ option, isSelected, onSelect }: { option: LottieOption; i
           ? "border-primary ring-2 ring-primary/30"
           : "border-border hover:border-muted-foreground/50"
       }`}
-      style={{ backgroundColor: "hsl(0, 0%, 4%)" }}
+      style={{ backgroundColor: "hsl(0, 0%, 8%)" }}
     >
       {option.id === "none" ? (
         <X className="w-5 h-5 text-muted-foreground" />
