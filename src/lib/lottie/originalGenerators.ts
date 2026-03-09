@@ -304,7 +304,7 @@ function genWaveLines(c: C[]) {
 function genBokeh(c: C[]) {
   const layers = Array.from({ length: 12 }, (_, i) => {
     const col = c[i % c.length]; const x = 30 + (i * 67) % 340; const y = 30 + (i * 47) % 240;
-    return makeLayer(i, [el(20 + (i % 4) * 15), fl(col, 18)], { o: aOpacity(10, 35), p: aPos(x, y, x + (i % 2 ? 15 : -15), y + (i % 3 ? -10 : 10)), s: aScale(70, 130), r: { a: 0, k: 0 } }, { st: -(i * 10) });
+    return makeLayer(i, [el(20 + (i % 4) * 15), fl(col, 40)], { o: aOpacity(25, 60), p: aPos(x, y, x + (i % 2 ? 15 : -15), y + (i % 3 ? -10 : 10)), s: aScale(70, 130), r: { a: 0, k: 0 } }, { st: -(i * 10) });
   });
   return wrap(layers);
 }
