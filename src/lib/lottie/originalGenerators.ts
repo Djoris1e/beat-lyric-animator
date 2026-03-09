@@ -59,7 +59,7 @@ function genWave(c: C[]) {
 function genBlob(c: C[]) {
   const layers = Array.from({ length: 5 }, (_, i) => {
     const col = c[i % c.length];
-    return makeLayer(i, [el(80 + i * 20), fl(col, 25)], { o: aOpacity(20, 50), p: aPos(150 + i * 30, 120 + i * 20, 200 + i * 20, 160 - i * 10), s: aScale(80, 140), r: aRotate(120 * (i % 2 ? 1 : -1)) }, { st: -(i * 20) });
+    return makeLayer(i, [el(80 + i * 20), fl(col, 40)], { o: aOpacity(30, 65), p: aPos(150 + i * 30, 120 + i * 20, 200 + i * 20, 160 - i * 10), s: aScale(80, 140), r: aRotate(120 * (i % 2 ? 1 : -1)) }, { st: -(i * 20) });
   });
   return wrap(layers);
 }
