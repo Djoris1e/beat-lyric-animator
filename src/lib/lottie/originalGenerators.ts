@@ -83,7 +83,7 @@ function genCircles(c: C[]) {
 function genSmoke(c: C[]) {
   const layers = Array.from({ length: 8 }, (_, i) => {
     const col = c[i % c.length]; const x = 100 + (i * 40) % 200;
-    return makeLayer(i, [el(60 + i * 10), fl(col, 15)], { o: aOpacity(5, 30), p: aPos(x, 250, x + (i % 2 ? 40 : -40), 80), s: aScale(60, 200), r: aRotate(60 * (i % 2 ? 1 : -1)) }, { st: -(i * 15) });
+    return makeLayer(i, [el(60 + i * 10), fl(col, 40)], { o: aOpacity(20, 60), p: aPos(x, 250, x + (i % 2 ? 40 : -40), 80), s: aScale(60, 200), r: aRotate(60 * (i % 2 ? 1 : -1)) }, { st: -(i * 15) });
   });
   return wrap(layers);
 }
